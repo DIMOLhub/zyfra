@@ -57,7 +57,7 @@ const App: React.FC = () => {
         </Button>
         <Button
           type="primary"
-          style={{ margin: '16px' }}
+          style={{ margin: '16px', color: "white" }}
           onClick={handleEditDepartment}
           disabled={selectedDepartmentId === null}
         >
@@ -65,7 +65,7 @@ const App: React.FC = () => {
         </Button>
         <Button
           type="primary"
-          style={{ margin: '16px' }}
+          style={{ margin: '16px', color: "white" }}
           onClick={handleDeleteDepartment}
           disabled={selectedDepartmentId === null}
         >
