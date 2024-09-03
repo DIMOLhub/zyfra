@@ -1,0 +1,53 @@
+{
+  "employees": [
+    {
+      "id": "1724850264263",
+      "departmentId": null,
+      "firstName": "нуре",
+      "lastName": "уеруен",
+      "middleName": "нур",
+      "birthDate": "2024-08-04T21:00:00.000Z",
+      "gender": "Мужской",
+      "position": "унрер",
+      "driverLicense": 1
+    },
+    {
+      "id": "1724850401652",
+      "departmentId": "1724850313264",
+      "firstName": "Дима",
+      "lastName": "Ольховнев-09-",
+      "middleName": "щшнгщшг",
+      "birthDate": "2024-08-05T21:00:00.000Z",
+      "gender": "Мужской",
+      "position": "5686758",
+      "driverLicense": 0
+    },
+    {
+      "id": "1725348142073",
+      "departmentId": "1724880846418",
+      "firstName": "Dmitrii",
+      "lastName": "Olhovnev",
+      "middleName": "енг89е7897",
+      "birthDate": "2024-09-04T21:00:00.000Z",
+      "gender": "Женский",
+      "position": "6789679",
+      "driverLicense": 1
+    }
+  ],
+  "departments": [
+    {
+      "id": "1724850313264",
+      "name": "кенкег234гншщнг",
+      "formationDate": "2024-08-05",
+      "description": "кенгекг",
+      "parentId": null
+    },
+    {
+      "id": "1724880846418",
+      "name": "bed boys",
+      "formationDate": "1983-05-11",
+      "description": "agfrniklrhkjlghdvk",
+      "parentId": null
+    }
+  ]
+}
