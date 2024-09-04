@@ -3,11 +3,13 @@ import React from 'react';
 import { Tree, TreeDataNode } from 'antd';
 import { Department, ID } from '../types/common';
 import '../App.css';
-import { useGetDepartmentsQuery, useUpdateDepartmentMutation } from '../services/departmentApi';
+import { useDeleteDepartmentMutation, useGetDepartmentsQuery, useUpdateDepartmentMutation } from '../services/departmentApi';
 
 const DepartmentTree: React.FC<{ onSelect: (id: ID) => void }> = ({ onSelect }) => {
   const { data: departments, refetch } = useGetDepartmentsQuery(null);
   const [updateDepartment] = useUpdateDepartmentMutation();
+  const [deleteDepartment] = useDeleteDepartmentMutation();
+
   const handleSelect = (selectedKeys: React.Key[], info: any) => {
     if (selectedKeys.length > 0) {
       onSelect(selectedKeys[0] as ID); // передаем выбранный ID
@@ -19,7 +21,7 @@ const DepartmentTree: React.FC<{ onSelect: (id: ID) => void }> = ({ onSelect }) 
     return (departments || [])
       .filter(department => department.parentId === parentId)
       .map(department => ({
-        title: department.name,
+        title: <span title={department.name}>{department.name}</span>,
         key: department.id,
         children: buildTreeData(departments, department.id),
       }));

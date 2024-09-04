@@ -36,14 +36,22 @@ const App: React.FC = () => {
     }
   };
 
+  const deleteDepartmentWithChildren = async (id: ID) => {
+    const childDepartments = departments?.filter(dept => dept.parentId === id) || [];
+    for (const child of childDepartments) {
+      await deleteDepartmentWithChildren(child.id); // рекурсивно удаляем дочерние подразделения
+    }
+    await deleteDepartment(id); // удаляем текущее подразделение
+  };
+
   const handleDeleteDepartment = async () => {
     if (selectedDepartmentId !== null) {
       Modal.confirm({
-        title: 'Вы уверены, что хотите удалить это подразделение?',
+        title: 'Вы уверены, что хотите удалить это подразделение и все его подчиненные подразделения?',
         onOk: async () => {
-          await deleteDepartment(selectedDepartmentId);
+          await deleteDepartmentWithChildren(selectedDepartmentId);
           setSelectedDepartmentId(null);
-          refetch(); // Обновить данные после удаления
+          refetch();
         },
       });
     }
@@ -82,7 +90,7 @@ const App: React.FC = () => {
           )}
         </Content>
       </Layout>
-      <DepartmentModal
+      <DepartmentModal 
         isOpen={isDepartmentModalVisible}
         onRequestClose={() => {
           setIsDepartmentModalVisible(false);

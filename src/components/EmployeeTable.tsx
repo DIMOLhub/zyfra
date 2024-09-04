@@ -7,6 +7,7 @@ import { Employee, ID } from '../types/common';
 import EmployeeModal from './modals/EmployeeModal';
 import '../App.css';
 import moment from 'moment';
+import dayjs from 'dayjs';
 
 interface EmployeeTableProps {
   departmentId: ID;
@@ -17,37 +18,65 @@ const columns: ColumnsType<Employee> = [
     title: 'Фамилия',
     dataIndex: 'lastName',
     key: 'lastName',
+    width: 150,
+    ellipsis: {
+      showTitle: false,
+    },
   },
   {
     title: 'Имя',
     dataIndex: 'firstName',
     key: 'firstName',
+    width: 150,
+    ellipsis: {
+      showTitle: false,
+    },
   },
   {
     title: 'Отчество',
     dataIndex: 'middleName',
     key: 'middleName',
+    width: 150,
+    ellipsis: {
+      showTitle: false,
+    },
   },
   {
     title: 'Дата рождения',
     dataIndex: 'birthDate',
     key: 'birthDate',
-    render: (date) => date ? moment(date).format('DD.MM.YYYY') : 'Не указана',
+    width: 140,
+    ellipsis: {
+      showTitle: false,
+    },
+    render: (date) => date ? dayjs(date).format('DD.MM.YYYY') : 'Не указана',
   },
   {
     title: 'Пол',
     dataIndex: 'gender',
     key: 'gender',
+    width: 100,
+    ellipsis: {
+      showTitle: false,
+    },
   },
   {
     title: 'Должность',
     dataIndex: 'position',
     key: 'position',
+    width: 200,
+    ellipsis: {
+      showTitle: false,
+    },
   },
   {
     title: 'Водительские права',
     dataIndex: 'driverLicense',
     key: 'driverLicense',
+    width: 120,
+    ellipsis: {
+      showTitle: false,
+    },
     render: (_, record) => (record.driverLicense ? 'Да' : 'Нет'),
   },
 ];
@@ -122,6 +151,7 @@ const EmployeeTable: FC<EmployeeTableProps> = ({ departmentId }) => {
         dataSource={filteredEmployees}
         columns={columns}
         rowKey="id"
+        pagination={{pageSize: 13}}
         onRow={(record) => ({
           onClick: () => handleRowClick(record),
         })}

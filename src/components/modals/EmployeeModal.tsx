@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { Modal, Form, Input, DatePicker, Radio, Button, Select } from 'antd';
 import { Employee, ID } from '../../types/common';
-import moment from 'moment';
 import { ELicenseStatus, EGender } from '../../types/enums';
 import { useAddEmployeeMutation, useUpdateEmployeeMutation } from '../../services/employeeApi';
 import { useGetDepartmentsQuery } from '../../services/departmentApi';
+import dayjs from 'dayjs';
 
 interface EmployeeModalProps {
   isOpen: boolean;
@@ -25,7 +25,7 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ isOpen, onRequestClose, e
         firstName: employee.firstName,
         lastName: employee.lastName,
         middleName: employee.middleName,
-        birthDate: employee.birthDate ? moment(employee.birthDate) : null,
+        birthDate: employee.birthDate ? dayjs(employee.birthDate) : null,
         gender: employee.gender,
         position: employee.position,
         driverLicense: employee.driverLicense,
@@ -33,6 +33,11 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ isOpen, onRequestClose, e
       });
     } else {
       form.resetFields();
+      form.setFieldsValue({
+        gender: EGender.Male,
+        driverLicense: ELicenseStatus.No,
+        departmentId: departmentId,
+      });
     }
   }, [employee, departmentId, form]);
 
@@ -48,12 +53,18 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ isOpen, onRequestClose, e
       position: values.position,
       driverLicense: values.driverLicense,
     };
-  
+
     try {
       if (employee) {
         await updateEmployee(newEmployee).unwrap();
       } else {
         await addEmployee(newEmployee).unwrap();
+        form.resetFields();
+        form.setFieldsValue({
+          gender: EGender.Male, // Сброс значений по умолчанию
+          driverLicense: ELicenseStatus.No,
+          departmentId: departmentId,
+        });
       }
       onRequestClose();
     } catch (error) {
