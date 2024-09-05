@@ -1,12 +1,11 @@
 // отображает сотрудников
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useDeleteEmployeeByIdMutation, useFetchEmployeesQuery } from '../services/employeeApi';
-import { Button, Table } from 'antd';
+import { Button, Table, Tooltip } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Employee, ID } from '../types/common';
 import EmployeeModal from './modals/EmployeeModal';
 import '../App.css';
-import moment from 'moment';
 import dayjs from 'dayjs';
 
 interface EmployeeTableProps {
@@ -22,6 +21,11 @@ const columns: ColumnsType<Employee> = [
     ellipsis: {
       showTitle: false,
     },
+    render: (text: string) => (
+      <Tooltip title={text}>
+        <span>{text}</span>
+      </Tooltip>
+    ),
   },
   {
     title: 'Имя',
@@ -31,6 +35,11 @@ const columns: ColumnsType<Employee> = [
     ellipsis: {
       showTitle: false,
     },
+    render: (text: string) => (
+      <Tooltip title={text}>
+        <span>{text}</span>
+      </Tooltip>
+    ),
   },
   {
     title: 'Отчество',
@@ -40,6 +49,11 @@ const columns: ColumnsType<Employee> = [
     ellipsis: {
       showTitle: false,
     },
+    render: (text: string) => (
+      <Tooltip title={text}>
+        <span>{text}</span>
+      </Tooltip>
+    ),
   },
   {
     title: 'Дата рождения',
@@ -49,7 +63,14 @@ const columns: ColumnsType<Employee> = [
     ellipsis: {
       showTitle: false,
     },
-    render: (date) => date ? dayjs(date).format('DD.MM.YYYY') : 'Не указана',
+    render: (date: string) => {
+      const formattedDate = date ? dayjs(date).format('DD.MM.YYYY') : 'Не указана';
+      return (
+        <Tooltip title={formattedDate}>
+          <span>{formattedDate}</span>
+        </Tooltip>
+      );
+    },
   },
   {
     title: 'Пол',
@@ -68,6 +89,11 @@ const columns: ColumnsType<Employee> = [
     ellipsis: {
       showTitle: false,
     },
+    render: (text: string) => (
+      <Tooltip title={text}>
+        <span>{text}</span>
+      </Tooltip>
+    ),
   },
   {
     title: 'Водительские права',
@@ -89,6 +115,10 @@ const EmployeeTable: FC<EmployeeTableProps> = ({ departmentId }) => {
   const [deleteEmployeeById] = useDeleteEmployeeByIdMutation();
 
   const filteredEmployees: Employee[] = employees?.filter(emp => emp.departmentId === departmentId) ?? [];
+
+  useEffect(() => {
+    setSelectedEmployeeId(null); // Сброс при изменении departmentId
+  }, [departmentId]);
 
   const handleEdit = () => {
     if (!selectedEmployeeId) return;
@@ -146,19 +176,25 @@ const EmployeeTable: FC<EmployeeTableProps> = ({ departmentId }) => {
       >
         Удалить
       </Button>
-      <Table
-        bordered
-        dataSource={filteredEmployees}
-        columns={columns}
-        rowKey="id"
-        pagination={{pageSize: 13}}
-        onRow={(record) => ({
-          onClick: () => handleRowClick(record),
-        })}
-        rowClassName={(record) =>
-          record.id === selectedEmployeeId ? 'selected-row' : ''
-        }
-      />
+      <div className="table-content">
+        <Table
+          bordered
+          dataSource={filteredEmployees}
+          columns={columns}
+          pagination={{
+            position: ['bottomRight'],
+            pageSize: 13
+          }}
+          scroll={{ x: 1200 }}
+          rowKey="id"
+          onRow={(record) => ({
+            onClick: () => handleRowClick(record),
+          })}
+          rowClassName={(record) =>
+            record.id === selectedEmployeeId ? 'selected-row' : ''
+          }
+        />
+      </div>
       <EmployeeModal
         isOpen={isModalVisible}
         onRequestClose={closeModal}

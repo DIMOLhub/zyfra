@@ -12,7 +12,9 @@ const DepartmentTree: React.FC<{ onSelect: (id: ID) => void }> = ({ onSelect }) 
 
   const handleSelect = (selectedKeys: React.Key[], info: any) => {
     if (selectedKeys.length > 0) {
-      onSelect(selectedKeys[0] as ID); // передаем выбранный ID
+      onSelect(selectedKeys[0] as ID);
+    } else {
+      onSelect(''); // сбросить выбор
     }
   };
 

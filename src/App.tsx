@@ -22,7 +22,13 @@ const App: React.FC = () => {
   };
 
   const handleAddDepartment = () => {
-    setEditingDepartment(null);
+    setEditingDepartment({
+      id: '', // Новый ID будет сгенерирован при сохранении
+      name: '',
+      formationDate: '',
+      description: '',
+      parentId: selectedDepartmentId || null, // Устанавливаем родительское подразделение на основе выбранного
+    });
     setIsDepartmentModalVisible(true);
   };
 
@@ -67,7 +73,7 @@ const App: React.FC = () => {
           type="primary"
           style={{ margin: '16px', color: "white" }}
           onClick={handleEditDepartment}
-          disabled={selectedDepartmentId === null}
+          disabled={!selectedDepartmentId}
         >
           Редактировать
         </Button>
@@ -75,7 +81,7 @@ const App: React.FC = () => {
           type="primary"
           style={{ margin: '16px', color: "white" }}
           onClick={handleDeleteDepartment}
-          disabled={selectedDepartmentId === null}
+          disabled={!selectedDepartmentId}
         >
           Удалить
         </Button>

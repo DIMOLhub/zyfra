@@ -72,13 +72,18 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ isOpen, onRequestClose, e
     }
   };
 
+  const handleClose = () => {
+    form.resetFields();
+    onRequestClose();
+  };
+
   return (
     <Modal
       title={employee ? "Редактировать сотрудника" : "Добавить сотрудника"}
       visible={isOpen}
-      onCancel={onRequestClose}
+      onCancel={handleClose}
       footer={[
-        <Button key="cancel" onClick={onRequestClose}>Отмена</Button>,
+        <Button key="cancel" onClick={handleClose}>Отмена</Button>,
         <Button key="submit" type="primary" onClick={() => form.submit()}>Сохранить</Button>,
       ]}
     >

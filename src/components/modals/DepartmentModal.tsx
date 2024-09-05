@@ -34,6 +34,25 @@ const DepartmentModal: React.FC<DepartmentModalProps> = ({ isOpen, onRequestClos
     }
   }, [department]);
 
+  // Функция для поиска всех дочерних подразделений
+  const findChildDepartments = (departmentId: ID | null): ID[] => {
+    const childDepartments: ID[] = [];
+    const findChildren = (parentId: ID) => {
+      const children = departments?.filter(dept => dept.parentId === parentId);
+      children?.forEach(child => {
+        childDepartments.push(child.id);
+        findChildren(child.id); // Рекурсивно находим детей
+      });
+    };
+    if (departmentId) {
+      findChildren(departmentId);
+    }
+    return childDepartments;
+  };
+
+  // Все дочерние подразделения текущего подразделения
+  const childDepartmentIds = department ? findChildDepartments(department.id) : [];
+
   const handleSubmit = async () => {
     const newDepartment: Department = {
       id: department?.id || Date.now().toString(), // id должен быть строкой
@@ -93,11 +112,13 @@ const DepartmentModal: React.FC<DepartmentModalProps> = ({ isOpen, onRequestClos
             onChange={setParentId}
             allowClear
           >
-            {departments?.map(dept => (
-              <Select.Option key={dept.id} value={dept.id}>
-                {dept.name}
-              </Select.Option>
-            ))}
+            {departments
+              ?.filter(dept => dept.id !== department?.id && !childDepartmentIds.includes(dept.id)) // Исключаем текущее и дочерние подразделения
+              .map(dept => (
+                <Select.Option key={dept.id} value={dept.id}>
+                  {dept.name}
+                </Select.Option>
+              ))}
           </Select>
         </Form.Item>
       </Form>
