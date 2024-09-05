@@ -1,7 +1,7 @@
 // отображает сотрудников
 import React, { FC, useEffect, useState } from 'react';
 import { useDeleteEmployeeByIdMutation, useFetchEmployeesQuery } from '../services/employeeApi';
-import { Button, Table, Tooltip } from 'antd';
+import { Button, Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Employee, ID } from '../types/common';
 import EmployeeModal from './modals/EmployeeModal';
