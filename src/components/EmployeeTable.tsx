@@ -18,58 +18,31 @@ const columns: ColumnsType<Employee> = [
     dataIndex: 'lastName',
     key: 'lastName',
     width: 150,
-    ellipsis: {
-      showTitle: false,
-    },
-    render: (text: string) => (
-      <Tooltip title={text}>
-        <span>{text}</span>
-      </Tooltip>
-    ),
+    ellipsis: true,
   },
   {
     title: 'Имя',
     dataIndex: 'firstName',
     key: 'firstName',
     width: 150,
-    ellipsis: {
-      showTitle: false,
-    },
-    render: (text: string) => (
-      <Tooltip title={text}>
-        <span>{text}</span>
-      </Tooltip>
-    ),
+    ellipsis: true,
   },
   {
     title: 'Отчество',
     dataIndex: 'middleName',
     key: 'middleName',
     width: 150,
-    ellipsis: {
-      showTitle: false,
-    },
-    render: (text: string) => (
-      <Tooltip title={text}>
-        <span>{text}</span>
-      </Tooltip>
-    ),
+    ellipsis: true,
   },
   {
     title: 'Дата рождения',
     dataIndex: 'birthDate',
     key: 'birthDate',
     width: 140,
-    ellipsis: {
-      showTitle: false,
-    },
+    ellipsis: true,
     render: (date: string) => {
       const formattedDate = date ? dayjs(date).format('DD.MM.YYYY') : 'Не указана';
-      return (
-        <Tooltip title={formattedDate}>
-          <span>{formattedDate}</span>
-        </Tooltip>
-      );
+      return <span>{formattedDate}</span>
     },
   },
   {
@@ -77,32 +50,21 @@ const columns: ColumnsType<Employee> = [
     dataIndex: 'gender',
     key: 'gender',
     width: 100,
-    ellipsis: {
-      showTitle: false,
-    },
+    ellipsis: true,
   },
   {
     title: 'Должность',
     dataIndex: 'position',
     key: 'position',
     width: 200,
-    ellipsis: {
-      showTitle: false,
-    },
-    render: (text: string) => (
-      <Tooltip title={text}>
-        <span>{text}</span>
-      </Tooltip>
-    ),
+    ellipsis: true,
   },
   {
     title: 'Водительские права',
     dataIndex: 'driverLicense',
     key: 'driverLicense',
     width: 120,
-    ellipsis: {
-      showTitle: false,
-    },
+    ellipsis: true,
     render: (_, record) => (record.driverLicense ? 'Да' : 'Нет'),
   },
 ];

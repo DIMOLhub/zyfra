@@ -112,9 +112,3 @@ body {
   white-space: normal;
   border: 1px solid red
 } */
-
-.table-content {
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
