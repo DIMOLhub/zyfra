@@ -23,7 +23,7 @@ const App: React.FC = () => {
 
   const handleAddDepartment = () => {
     setEditingDepartment({
-      id: '', // Новый ID будет сгенерирован при сохранении
+      id: null, // Новый ID будет сгенерирован при сохранении
       name: '',
       formationDate: '',
       description: '',
@@ -36,6 +36,7 @@ const App: React.FC = () => {
     if (selectedDepartmentId !== null) {
       const department = getDepartmentById(selectedDepartmentId);
       if (department) {
+        console.log('department', department)
         setEditingDepartment(department);
         setIsDepartmentModalVisible(true);
       }
@@ -96,7 +97,7 @@ const App: React.FC = () => {
           )}
         </Content>
       </Layout>
-      <DepartmentModal 
+      <DepartmentModal
         isOpen={isDepartmentModalVisible}
         onRequestClose={() => {
           setIsDepartmentModalVisible(false);

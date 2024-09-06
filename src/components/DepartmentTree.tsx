@@ -8,7 +8,6 @@ import { useDeleteDepartmentMutation, useGetDepartmentsQuery, useUpdateDepartmen
 const DepartmentTree: React.FC<{ onSelect: (id: ID) => void }> = ({ onSelect }) => {
   const { data: departments, refetch } = useGetDepartmentsQuery(null);
   const [updateDepartment] = useUpdateDepartmentMutation();
-  const [deleteDepartment] = useDeleteDepartmentMutation();
 
   const handleSelect = (selectedKeys: React.Key[], info: any) => {
     if (selectedKeys.length > 0) {
@@ -24,7 +23,7 @@ const DepartmentTree: React.FC<{ onSelect: (id: ID) => void }> = ({ onSelect }) 
       .filter(department => department.parentId === parentId)
       .map(department => ({
         title: <span title={department.name}>{department.name}</span>,
-        key: department.id,
+        key: String(department.id),
         children: buildTreeData(departments, department.id),
       }));
   };

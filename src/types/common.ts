@@ -8,14 +8,14 @@ export interface Employee {
   lastName: string;
   middleName: string;
   firstName: string;
-  birthDate?: ID;
+  birthDate?: string | null;
   gender: EGender;
   position: ID;
   driverLicense: ELicenseStatus;
 }
 
 export interface Department {
-  id: ID;
+  id: ID | null;
   name: string;
   formationDate: ID;
   description: string;

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Input, DatePicker, Form, Button, Select } from 'antd';
+import { Modal, Input, DatePicker, Form, Button, Select, notification } from 'antd';
 import { useAddDepartmentMutation, useUpdateDepartmentMutation, useGetDepartmentsQuery } from '../../services/departmentApi';
 import { Department, ID } from '../../types/common';
-import moment, { Moment } from 'moment';
 import dayjs, { Dayjs } from 'dayjs';
 
 interface DepartmentModalProps {
@@ -16,6 +15,7 @@ const DepartmentModal: React.FC<DepartmentModalProps> = ({ isOpen, onRequestClos
   const [formationDate, setFormationDate] = useState<Dayjs | null>(null);
   const [description, setDescription] = useState('');
   const [parentId, setParentId] = useState<ID | null>(null);
+
   const { data: departments } = useGetDepartmentsQuery(null); // Получаем все подразделения
   const [addDepartment] = useAddDepartmentMutation();
   const [updateDepartment] = useUpdateDepartmentMutation();
@@ -54,8 +54,17 @@ const DepartmentModal: React.FC<DepartmentModalProps> = ({ isOpen, onRequestClos
   const childDepartmentIds = department ? findChildDepartments(department.id) : [];
 
   const handleSubmit = async () => {
+    if (!name || !formationDate) {
+      notification.error({
+        message: 'Ошибка',
+        description: 'Заполните все обязательные поля.',
+      });
+      return;
+    }
+
+    console.log('department?.id', department?.id, Date.now().toString());
     const newDepartment: Department = {
-      id: department?.id || Date.now().toString(), // id должен быть строкой
+      id: department?.id || Date.now().toString(),
       name,
       formationDate: formationDate ? formationDate.format('YYYY-MM-DD') : '',
       description,
@@ -63,9 +72,14 @@ const DepartmentModal: React.FC<DepartmentModalProps> = ({ isOpen, onRequestClos
     };
 
     try {
-      if (department) {
+      console.log('department', department)
+      if (department && department.id !== null) {
+        console.log('updateDepartment')
+        console.log('newDepartment', newDepartment)
         await updateDepartment(newDepartment).unwrap();
       } else {
+        console.log('addDepartment')
+        console.log('newDepartment', newDepartment)
         await addDepartment(newDepartment).unwrap();
         setName('');
         setFormationDate(null);
@@ -73,8 +87,16 @@ const DepartmentModal: React.FC<DepartmentModalProps> = ({ isOpen, onRequestClos
         setParentId(null);
       }
       onRequestClose();
+      notification.success({
+        message: 'Успех',
+        description: 'Подразделение успешно сохранено.',
+      });
     } catch (error) {
       console.error('Ошибка при сохранении подразделения:', error);
+      notification.error({
+        message: 'Ошибка',
+        description: 'Произошла ошибка при сохранении подразделения.',
+      });
     }
   };
 
@@ -94,17 +116,23 @@ const DepartmentModal: React.FC<DepartmentModalProps> = ({ isOpen, onRequestClos
     >
       <Form layout="vertical">
         <Form.Item label="Наименование" required>
-          <Input value={name} onChange={e => setName(e.target.value)} />
+          <Input value={name}
+            onChange={e => setName(e.target.value)}
+            required
+          />
         </Form.Item>
         <Form.Item label="Дата формирования" required>
           <DatePicker
             value={formationDate}
             onChange={date => setFormationDate(date)}
             format="YYYY-MM-DD"
+            required
           />
         </Form.Item>
         <Form.Item label="Описание">
-          <Input.TextArea value={description} onChange={e => setDescription(e.target.value)} />
+          <Input.TextArea
+            value={description}
+            onChange={e => setDescription(e.target.value)} />
         </Form.Item>
         <Form.Item label="Родительское подразделение">
           <Select
