@@ -3,7 +3,7 @@ import React from 'react';
 import { Tree, TreeDataNode } from 'antd';
 import { Department, ID } from '../types/common';
 import '../App.css';
-import { useDeleteDepartmentMutation, useGetDepartmentsQuery, useUpdateDepartmentMutation } from '../services/departmentApi';
+import { useGetDepartmentsQuery, useUpdateDepartmentMutation } from '../services/departmentApi';
 
 const DepartmentTree: React.FC<{ onSelect: (id: ID) => void }> = ({ onSelect }) => {
   const { data: departments, refetch } = useGetDepartmentsQuery(null);
