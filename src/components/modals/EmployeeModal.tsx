@@ -41,17 +41,13 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ isOpen, onRequestClose, e
       }
     };
 
-    console.log('employee', employee)
     const res = {
       ...employee,
       birthDate: employee.birthDate ? dayjs(employee.birthDate) : '',
       departmentId: employee.departmentId || departmentId,
     }
-    console.log('res', res)
     return res;
   }, [employee, departmentId])
-
-  console.log('initialFieldValues', initialFieldValues)
 
   const handleSubmit = useCallback(async (values: any) => {
     const newEmployee: Employee = {
@@ -60,11 +56,8 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ isOpen, onRequestClose, e
       birthDate: values.birthDate ? values.birthDate.toISOString() : '',
     };
 
-    console.log('newEmployee', newEmployee)
-
     try {
       if (employee) {
-        console.log('employee', employee)
         await updateEmployee(newEmployee).unwrap();
       } else {
         await addEmployee(newEmployee).unwrap();
@@ -153,7 +146,6 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ isOpen, onRequestClose, e
         >
           <Select>
             {departments && departments.map(department => {
-              // console.log('department', department)
               return (<Select.Option key={department.id} value={department.id}>
                 {department.name}
               </Select.Option>)

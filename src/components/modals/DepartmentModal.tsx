@@ -16,7 +16,7 @@ const DepartmentModal: React.FC<DepartmentModalProps> = ({ isOpen, onRequestClos
   const [description, setDescription] = useState('');
   const [parentId, setParentId] = useState<ID | null>(null);
 
-  const { data: departments } = useGetDepartmentsQuery(null); // Получаем все подразделения
+  const { data: departments } = useGetDepartmentsQuery(null);
   const [addDepartment] = useAddDepartmentMutation();
   const [updateDepartment] = useUpdateDepartmentMutation();
 
@@ -34,14 +34,13 @@ const DepartmentModal: React.FC<DepartmentModalProps> = ({ isOpen, onRequestClos
     }
   }, [department]);
 
-  // Функция для поиска всех дочерних подразделений
   const findChildDepartments = (departmentId: ID | null): ID[] => {
     const childDepartments: ID[] = [];
     const findChildren = (parentId: ID) => {
       const children = departments?.filter(dept => dept.parentId === parentId);
       children?.forEach(child => {
         childDepartments.push(child.id);
-        findChildren(child.id); // Рекурсивно находим детей
+        findChildren(child.id);
       });
     };
     if (departmentId) {
@@ -50,7 +49,6 @@ const DepartmentModal: React.FC<DepartmentModalProps> = ({ isOpen, onRequestClos
     return childDepartments;
   };
 
-  // Все дочерние подразделения текущего подразделения
   const childDepartmentIds = department ? findChildDepartments(department.id) : [];
 
   const handleSubmit = async () => {
@@ -62,7 +60,6 @@ const DepartmentModal: React.FC<DepartmentModalProps> = ({ isOpen, onRequestClos
       return;
     }
 
-    console.log('department?.id', department?.id, Date.now().toString());
     const newDepartment: Department = {
       id: department?.id || Date.now().toString(),
       name,
@@ -72,14 +69,9 @@ const DepartmentModal: React.FC<DepartmentModalProps> = ({ isOpen, onRequestClos
     };
 
     try {
-      console.log('department', department)
       if (department && department.id !== null) {
-        console.log('updateDepartment')
-        console.log('newDepartment', newDepartment)
         await updateDepartment(newDepartment).unwrap();
       } else {
-        console.log('addDepartment')
-        console.log('newDepartment', newDepartment)
         await addDepartment(newDepartment).unwrap();
         setName('');
         setFormationDate(null);
@@ -141,7 +133,7 @@ const DepartmentModal: React.FC<DepartmentModalProps> = ({ isOpen, onRequestClos
             allowClear
           >
             {departments
-              ?.filter(dept => dept.id !== department?.id && !childDepartmentIds.includes(dept.id)) // Исключаем текущее и дочерние подразделения
+              ?.filter(dept => dept.id !== department?.id && !childDepartmentIds.includes(dept.id))
               .map(dept => (
                 <Select.Option key={dept.id} value={dept.id}>
                   {dept.name}

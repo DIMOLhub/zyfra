@@ -13,11 +13,10 @@ const DepartmentTree: React.FC<{ onSelect: (id: ID) => void }> = ({ onSelect }) 
     if (selectedKeys.length > 0) {
       onSelect(selectedKeys[0] as ID);
     } else {
-      onSelect(''); // сбросить выбор
+      onSelect('');
     }
   };
 
-  // Построение данных для дерева
   const buildTreeData = (departments: Department[] | undefined, parentId: ID | null = null): TreeDataNode[] => {
     return (departments || [])
       .filter(department => department.parentId === parentId)
@@ -30,7 +29,6 @@ const DepartmentTree: React.FC<{ onSelect: (id: ID) => void }> = ({ onSelect }) 
 
   const treeData = buildTreeData(departments);
 
-  // Обработка перемещения узлов
   const handleDrop = async (info: any) => {
     const dragKey = String(info.dragNode.key);
     const dropKey = String(info.node.key);

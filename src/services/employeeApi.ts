@@ -51,32 +51,5 @@ export const {
   useAddEmployeeMutation, 
   useFetchEmployeeByIdQuery, 
   useDeleteEmployeeByIdMutation, 
-  useUpdateEmployeeMutation // Добавили экспорт для обновления
+  useUpdateEmployeeMutation
 } = employeeApi;
-
-
-// export { Employee };
-// import { createAsyncThunk } from '@reduxjs/toolkit';
-// import axios from 'axios';
-// import { Employee } from '../types/common';
-
-
-// export const fetchEmployees = createAsyncThunk('employees/fetchEmployees', async () => {
-//   const response = await axios.get('http://localhost:5000/employees');
-//   return response.data;
-// });
-
-// export const addEmployee = createAsyncThunk('employees/addEmployee', async (employee: Employee) => {
-//   const response = await axios.post('http://localhost:5000/employees', employee);
-//   return response.data;
-// });
-
-// export const updateEmployee = createAsyncThunk('employees/updateEmployee', async (employee: Employee) => {
-//   const response = await axios.put(`http://localhost:5000/employees/${employee.id}`, employee);
-//   return response.data;
-// });
-
-// export const deleteEmployee = createAsyncThunk('employees/deleteEmployee', async (id: number) => {
-//   await axios.delete(`http://localhost:5000/employees/${id}`);
-//   return id;
-// });

@@ -79,7 +79,7 @@ const EmployeeTable: FC<EmployeeTableProps> = ({ departmentId }) => {
   const filteredEmployees: Employee[] = employees?.filter(emp => emp.departmentId === departmentId) ?? [];
 
   useEffect(() => {
-    setSelectedEmployeeId(null); // Сброс при изменении departmentId
+    setSelectedEmployeeId(null);
   }, [departmentId]);
 
   const handleEdit = () => {
@@ -102,12 +102,12 @@ const EmployeeTable: FC<EmployeeTableProps> = ({ departmentId }) => {
   };
 
   const handleAdd = () => {
-    setEditingEmployee(null); // Новый сотрудник
+    setEditingEmployee(null);
     setIsModalVisible(true);
   };
 
   const handleRowClick = (record: Employee) => {
-    setSelectedEmployeeId(record.id); // Устанавливаем строковый ID
+    setSelectedEmployeeId(record.id);
   };
 
   const closeModal = () => {

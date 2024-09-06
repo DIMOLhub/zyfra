@@ -106,9 +106,3 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
-/* .ant-tree-list-holder-inner:hover {
-  overflow: visible;
-  white-space: normal;
-  border: 1px solid red
-} */

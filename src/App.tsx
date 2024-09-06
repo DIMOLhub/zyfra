@@ -23,11 +23,11 @@ const App: React.FC = () => {
 
   const handleAddDepartment = () => {
     setEditingDepartment({
-      id: null, // Новый ID будет сгенерирован при сохранении
+      id: null,
       name: '',
       formationDate: '',
       description: '',
-      parentId: selectedDepartmentId || null, // Устанавливаем родительское подразделение на основе выбранного
+      parentId: selectedDepartmentId || null,
     });
     setIsDepartmentModalVisible(true);
   };
@@ -36,7 +36,6 @@ const App: React.FC = () => {
     if (selectedDepartmentId !== null) {
       const department = getDepartmentById(selectedDepartmentId);
       if (department) {
-        console.log('department', department)
         setEditingDepartment(department);
         setIsDepartmentModalVisible(true);
       }
@@ -46,9 +45,9 @@ const App: React.FC = () => {
   const deleteDepartmentWithChildren = async (id: ID) => {
     const childDepartments = departments?.filter(dept => dept.parentId === id) || [];
     for (const child of childDepartments) {
-      await deleteDepartmentWithChildren(child.id); // рекурсивно удаляем дочерние подразделения
+      await deleteDepartmentWithChildren(child.id);
     }
-    await deleteDepartment(id); // удаляем текущее подразделение
+    await deleteDepartment(id);
   };
 
   const handleDeleteDepartment = async () => {
@@ -110,15 +109,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-
-// Реализуйте эту функцию для получения отдела по его ID, например, из API или состояния:
-const getDepartmentById = (id: number): Department | null => {
-  const { data: departments } = useGetDepartmentsQuery(null);
-  if (departments) {
-    return departments.find(department => department.id === id) || null;
-  }
-  return null; // Заглушка, замените на реальную логику
-};
-// Главный компонент App: Управляет состоянием выбранного подразделения и 
-// передает его ID в компонент EmployeeTable для отображения  сотрудников.
