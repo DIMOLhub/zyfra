@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Input, DatePicker, Form, Button, Select, notification } from 'antd';
 import { useAddDepartmentMutation, useUpdateDepartmentMutation, useGetDepartmentsQuery } from '../../services/departmentApi';
-import { Department, ID } from '../../types/common';
-import dayjs, { Dayjs } from 'dayjs';
+import { Department } from '../../types/common';
+import dayjs from 'dayjs';
+import { findChildDepartments } from '../../types/departmentUtils';
 
 interface DepartmentModalProps {
   isOpen: boolean;
@@ -11,61 +12,44 @@ interface DepartmentModalProps {
 }
 
 const DepartmentModal: React.FC<DepartmentModalProps> = ({ isOpen, onRequestClose, department }) => {
-  const [name, setName] = useState('');
-  const [formationDate, setFormationDate] = useState<Dayjs | null>(null);
-  const [description, setDescription] = useState('');
-  const [parentId, setParentId] = useState<ID | null>(null);
-
+  const [form] = Form.useForm();
   const { data: departments } = useGetDepartmentsQuery(null);
   const [addDepartment] = useAddDepartmentMutation();
   const [updateDepartment] = useUpdateDepartmentMutation();
+  const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     if (department) {
-      setName(department.name);
-      setFormationDate(department.formationDate ? dayjs(department.formationDate) : null);
-      setDescription(department.description);
-      setParentId(department.parentId ?? null);
+      form.setFieldsValue({
+        name: department.name,
+        formationDate: department.formationDate ? dayjs(department.formationDate) : undefined,
+        description: department.description,
+        parentId: department.parentId ?? undefined,
+      });
     } else {
-      setName('');
-      setFormationDate(null);
-      setDescription('');
-      setParentId(null);
+      form.resetFields();
     }
-  }, [department]);
+  }, [department, form]);
 
-  const findChildDepartments = (departmentId: ID | null): ID[] => {
-    const childDepartments: ID[] = [];
-    const findChildren = (parentId: ID) => {
-      const children = departments?.filter(dept => dept.parentId === parentId);
-      children?.forEach(child => {
-        childDepartments.push(child.id);
-        findChildren(child.id);
-      });
-    };
-    if (departmentId) {
-      findChildren(departmentId);
-    }
-    return childDepartments;
-  };
+  const childDepartmentIds = department ? findChildDepartments(department?.id, departments) : [];
 
-  const childDepartmentIds = department ? findChildDepartments(department.id) : [];
+  const filteredDepartments = departments?.filter(dept => {
+    const matchesSearch = dept.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const isNotChild = !childDepartmentIds.includes(dept.id);
+    const isNotCurrent = dept.id !== department?.id;
 
-  const handleSubmit = async () => {
-    if (!name || !formationDate) {
-      notification.error({
-        message: 'Ошибка',
-        description: 'Заполните все обязательные поля.',
-      });
-      return;
-    }
+    return matchesSearch && isNotChild && isNotCurrent;
+  });
 
+  const handleSubmit = async (values: any) => {
+    setLoading(true);
+    
     const newDepartment: Department = {
       id: department?.id || Date.now().toString(),
-      name,
-      formationDate: formationDate ? formationDate.format('YYYY-MM-DD') : '',
-      description,
-      parentId: parentId ?? null,
+      ...values,
+      formationDate: values.formationDate ? values.formationDate.format('YYYY-MM-DD') : '',
+      parentId: values.parentId ?? null,
     };
 
     try {
@@ -73,10 +57,7 @@ const DepartmentModal: React.FC<DepartmentModalProps> = ({ isOpen, onRequestClos
         await updateDepartment(newDepartment).unwrap();
       } else {
         await addDepartment(newDepartment).unwrap();
-        setName('');
-        setFormationDate(null);
-        setDescription('');
-        setParentId(null);
+        form.resetFields();
       }
       onRequestClose();
       notification.success({
@@ -84,61 +65,46 @@ const DepartmentModal: React.FC<DepartmentModalProps> = ({ isOpen, onRequestClos
         description: 'Подразделение успешно сохранено.',
       });
     } catch (error) {
-      console.error('Ошибка при сохранении подразделения:', error);
       notification.error({
         message: 'Ошибка',
         description: 'Произошла ошибка при сохранении подразделения.',
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <Modal
-      title={department ? 'Редактировать подразделение' : 'Добавить подразделение'}
+      title={department && department.id !== null ? 'Редактировать подразделение' : 'Добавить подразделение'}
       open={isOpen}
       onCancel={onRequestClose}
       footer={[
         <Button key="cancel" onClick={onRequestClose}>
           Отмена
         </Button>,
-        <Button key="submit" type="primary" onClick={handleSubmit}>
+        <Button key="submit" type="primary" onClick={() => form.submit()} loading={loading}>
           Сохранить
         </Button>,
       ]}
     >
-      <Form layout="vertical">
-        <Form.Item label="Наименование" required>
-          <Input value={name}
-            onChange={e => setName(e.target.value)}
-            required
-          />
+      <Form form={form} layout="vertical" onFinish={handleSubmit}>
+        <Form.Item label="Наименование" name="name" rules={[{ required: true, message: 'Введите наименование' }]} required>
+          <Input maxLength={50} showCount required />
         </Form.Item>
-        <Form.Item label="Дата формирования" required>
-          <DatePicker
-            value={formationDate}
-            onChange={date => setFormationDate(date)}
-            format="YYYY-MM-DD"
-            required
-          />
+        <Form.Item label="Дата формирования" name="formationDate" rules={[{ required: true, message: 'Выберите дату формирования' }]}>
+          <DatePicker format="YYYY-MM-DD" />
         </Form.Item>
-        <Form.Item label="Описание">
-          <Input.TextArea
-            value={description}
-            onChange={e => setDescription(e.target.value)} />
+        <Form.Item label="Описание" name="description">
+          <Input.TextArea maxLength={200} showCount />
         </Form.Item>
-        <Form.Item label="Родительское подразделение">
-          <Select
-            value={parentId}
-            onChange={setParentId}
-            allowClear
-          >
-            {departments
-              ?.filter(dept => dept.id !== department?.id && !childDepartmentIds.includes(dept.id))
-              .map(dept => (
-                <Select.Option key={dept.id} value={dept.id}>
-                  {dept.name}
-                </Select.Option>
-              ))}
+        <Form.Item label="Родительское подразделение" name="parentId">
+          <Select allowClear>
+            {filteredDepartments?.map(dept => (
+              <Select.Option key={dept.id} value={dept.id}>
+                {dept.name}
+              </Select.Option>
+            ))}
           </Select>
         </Form.Item>
       </Form>

@@ -1,4 +1,3 @@
-//конфигурироваться хранилище
 import { configureStore } from "@reduxjs/toolkit";
 import { departmentApi } from "../services/departmentApi";
 import { employeeApi } from "../services/employeeApi";

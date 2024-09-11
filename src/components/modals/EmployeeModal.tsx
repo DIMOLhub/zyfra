@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { Modal, Form, Input, DatePicker, Radio, Button, Select } from 'antd';
-import { Employee, ID } from '../../types/common';
+import { Employee } from '../../types/common';
 import { ELicenseStatus, EGender } from '../../types/enums';
+import { GenderLocale, LicenseStatusLocale } from '../../types/locales';
 import { useAddEmployeeMutation, useUpdateEmployeeMutation } from '../../services/employeeApi';
 import { useGetDepartmentsQuery } from '../../services/departmentApi';
 import dayjs from 'dayjs';
@@ -10,7 +11,7 @@ interface EmployeeModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
   employee: Employee | null;
-  departmentId: ID;
+  departmentId: string;
 }
 
 const newEmployeeId = Date.now().toString();
@@ -120,8 +121,8 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ isOpen, onRequestClose, e
           label="Пол"
         >
           <Radio.Group>
-            <Radio value={EGender.Male}>Мужской</Radio>
-            <Radio value={EGender.Female}>Женский</Radio>
+            <Radio value={EGender.Male}>{GenderLocale[EGender.Male]}</Radio>
+            <Radio value={EGender.Female}>{GenderLocale[EGender.Female]}</Radio>
           </Radio.Group>
         </Form.Item>
         <Form.Item
@@ -135,8 +136,8 @@ const EmployeeModal: React.FC<EmployeeModalProps> = ({ isOpen, onRequestClose, e
           label="Водительские права"
         >
           <Radio.Group>
-            <Radio value={ELicenseStatus.Yes}>Да</Radio>
-            <Radio value={ELicenseStatus.No}>Нет</Radio>
+            <Radio value={ELicenseStatus.Yes}>{LicenseStatusLocale[ELicenseStatus.Yes]}</Radio>
+            <Radio value={ELicenseStatus.No}>{LicenseStatusLocale[ELicenseStatus.No]}</Radio>
           </Radio.Group>
         </Form.Item>
         <Form.Item

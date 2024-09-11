@@ -1,23 +1,21 @@
 import { EGender, ELicenseStatus } from "./enums"
 
-export type ID = string | number;
-
 export interface Employee {
-  id: ID;
-  departmentId: ID | null;
+  id: string;
+  departmentId: string | null;
   lastName: string;
   middleName: string;
   firstName: string;
   birthDate?: string | null;
   gender: EGender;
-  position: ID;
+  position: string;
   driverLicense: ELicenseStatus;
 }
 
 export interface Department {
-  id: ID | null;
+  id: string | null;
   name: string;
-  formationDate: ID;
+  formationDate: string;
   description: string;
-  parentId: ID | null;
+  parentId: string | null;
 }

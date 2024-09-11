@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
-import './App.css';
+import './App.less';
 import DepartmentTree from './components/DepartmentTree';
 import EmployeeTable from './components/EmployeeTable';
 import Layout from 'antd/es/layout';
 import { Button, Modal } from 'antd';
 import DepartmentModal from './components/modals/DepartmentModal';
-import { Department, ID } from './types/common';
+import { Department } from './types/common';
 import { useDeleteDepartmentMutation, useGetDepartmentsQuery } from './services/departmentApi';
 
 const { Sider, Content } = Layout;
 
 const App: React.FC = () => {
-  const [selectedDepartmentId, setSelectedDepartmentId] = useState<ID | null>(null);
+  const [selectedDepartmentId, setSelectedDepartmentId] = useState<string | null>(null);
   const [isDepartmentModalVisible, setIsDepartmentModalVisible] = useState(false);
   const [editingDepartment, setEditingDepartment] = useState<Department | null>(null);
   const [deleteDepartment] = useDeleteDepartmentMutation();
   const { data: departments, refetch } = useGetDepartmentsQuery(null);
 
-  const getDepartmentById = (id: ID): Department | null => {
+  const getDepartmentById = (id: string): Department | null => {
     return departments ? departments.find(dept => dept.id === id) || null : null;
   };
 
@@ -33,34 +33,29 @@ const App: React.FC = () => {
   };
 
   const handleEditDepartment = () => {
-    if (selectedDepartmentId !== null) {
-      const department = getDepartmentById(selectedDepartmentId);
-      if (department) {
-        setEditingDepartment(department);
-        setIsDepartmentModalVisible(true);
-      }
-    }
+    if (selectedDepartmentId === null) return;
+    const department = getDepartmentById(selectedDepartmentId);
+    if (!department) return;
+    setEditingDepartment(department);
+    setIsDepartmentModalVisible(true);
   };
 
-  const deleteDepartmentWithChildren = async (id: ID) => {
+  const deleteDepartmentWithChildren = async (id: string) => {
     const childDepartments = departments?.filter(dept => dept.parentId === id) || [];
-    for (const child of childDepartments) {
-      await deleteDepartmentWithChildren(child.id);
-    }
+    await Promise.all(childDepartments.map(child => deleteDepartmentWithChildren(child.id)));
     await deleteDepartment(id);
   };
 
   const handleDeleteDepartment = async () => {
-    if (selectedDepartmentId !== null) {
-      Modal.confirm({
-        title: 'Вы уверены, что хотите удалить это подразделение и все его подчиненные подразделения?',
-        onOk: async () => {
-          await deleteDepartmentWithChildren(selectedDepartmentId);
-          setSelectedDepartmentId(null);
-          refetch();
-        },
-      });
-    }
+    if (selectedDepartmentId === null) return;
+    Modal.confirm({
+      title: 'Вы уверены, что хотите удалить это подразделение и все его подчиненные подразделения?',
+      onOk: async () => {
+        await deleteDepartmentWithChildren(selectedDepartmentId);
+        setSelectedDepartmentId(null);
+        refetch();
+      },
+    });
   };
 
   return (
@@ -89,7 +84,7 @@ const App: React.FC = () => {
       </Sider>
       <Layout>
         <Content style={{ margin: '16px' }}>
-          {selectedDepartmentId !== null ? (
+          {selectedDepartmentId ? (
             <EmployeeTable departmentId={selectedDepartmentId} />
           ) : (
             <div>Выберите подразделение</div>

@@ -1,203 +1,45 @@
 {
   "employees": [
     {
-      "lastName": "111",
-      "firstName": "111",
-      "middleName": "111",
-      "birthDate": "2024-09-05T21:00:00.000Z",
-      "gender": "Мужской",
-      "position": "111",
-      "driverLicense": 0,
-      "departmentId": "1725615886107",
-      "id": "1725616385962"
-    },
-    {
-      "lastName": "222rytutrutrurtyutryutryutyutru",
-      "firstName": "222rtyuyrturtutruyrturturturtyurt",
-      "middleName": "222",
-      "birthDate": "2024-09-05T21:00:00.000Z",
-      "gender": "Мужской",
-      "position": "222",
-      "driverLicense": 0,
-      "departmentId": "1725615876324",
-      "id": "1725616398681"
-    },
-    {
-      "lastName": "333",
-      "firstName": "333",
-      "middleName": "333",
-      "birthDate": "2024-09-05T21:00:00.000Z",
-      "gender": "Мужской",
-      "position": "333",
-      "driverLicense": 0,
-      "departmentId": "1725615897429",
-      "id": "1725616408154"
-    },
-    {
-      "id": "1725622264103",
       "lastName": "Olhovnev",
       "firstName": "Dmitrii",
       "middleName": "",
-      "birthDate": "",
-      "gender": "Мужской",
-      "position": "",
-      "driverLicense": 0,
-      "departmentId": "1725615876324"
-    },
-    {
-      "id": "1725622269006",
-      "lastName": "Ольховнев",
-      "firstName": "Дима",
-      "middleName": "",
-      "birthDate": "",
-      "gender": "Мужской",
-      "position": "",
-      "driverLicense": 0,
-      "departmentId": "1725615876324"
-    },
-    {
-      "id": "1725622274433",
-      "lastName": "Olhovnev",
-      "firstName": "Dmitrii",
-      "middleName": "",
-      "birthDate": "",
-      "gender": "Мужской",
-      "position": "",
-      "driverLicense": 0,
-      "departmentId": "1725615876324"
-    },
-    {
-      "id": "1725622278730",
-      "lastName": "Ольховнев",
-      "firstName": "Дима",
-      "middleName": "",
-      "birthDate": "",
-      "gender": "Мужской",
-      "position": "",
-      "driverLicense": 0,
-      "departmentId": "1725615876324"
-    },
-    {
-      "id": "1725622288934",
-      "lastName": "Ольховнев",
-      "firstName": "Дима",
-      "middleName": "",
-      "birthDate": "",
-      "gender": "Мужской",
-      "position": "",
-      "driverLicense": 0,
-      "departmentId": "1725615876324"
-    },
-    {
-      "id": "1725622293847",
-      "lastName": "Olhovnev",
-      "firstName": "Dmitrii",
-      "middleName": "",
-      "birthDate": "",
-      "gender": "Мужской",
-      "position": "",
-      "driverLicense": 0,
-      "departmentId": "1725615876324"
-    },
-    {
-      "id": "1725622298630",
-      "lastName": "Ольховнев",
-      "firstName": "Дима",
-      "middleName": "",
-      "birthDate": "",
-      "gender": "Мужской",
-      "position": "",
-      "driverLicense": 0,
-      "departmentId": "1725615876324"
-    },
-    {
-      "id": "1725622303160",
-      "lastName": "Olhovnev",
-      "firstName": "Dmitrii",
-      "middleName": "",
-      "birthDate": "",
-      "gender": "Мужской",
-      "position": "",
-      "driverLicense": 0,
-      "departmentId": "1725615876324"
-    },
-    {
-      "id": "1725622308853",
-      "lastName": "Ольховнев",
-      "firstName": "Дима",
-      "middleName": "",
-      "birthDate": "",
-      "gender": "Мужской",
-      "position": "",
-      "driverLicense": 0,
-      "departmentId": "1725615876324"
-    },
-    {
-      "id": "1725622320264",
-      "lastName": "Olhovnev",
-      "firstName": "Dmitrii",
-      "middleName": "",
-      "birthDate": "",
-      "gender": "Мужской",
-      "position": "",
-      "driverLicense": 0,
-      "departmentId": "1725615876324"
-    },
-    {
-      "lastName": "Ольховнев",
-      "firstName": "Дима",
-      "middleName": "",
-      "birthDate": "2024-09-19T21:00:00.000Z",
-      "gender": "Женский",
+      "birthDate": "2024-09-20T21:00:00.000Z",
+      "gender": "Female",
       "position": "",
       "driverLicense": 1,
-      "departmentId": "1725615876324",
-      "id": "1725622329671"
-    },
-    {
-      "id": "1725622334462",
-      "lastName": "Olhovnev",
-      "firstName": "Dmitrii",
-      "middleName": "",
-      "birthDate": "",
-      "gender": "Мужской",
-      "position": "",
-      "driverLicense": 0,
-      "departmentId": "1725615876324"
-    },
-    {
-      "id": "1725622378473",
-      "lastName": "Olhovnev",
-      "firstName": "Dmitrii",
-      "middleName": "",
-      "birthDate": "",
-      "gender": "Мужской",
-      "position": "",
-      "driverLicense": 0,
-      "departmentId": "1725615876324"
+      "departmentId": "1726046986022",
+      "id": "1726057385530"
     }
   ],
   "departments": [
     {
-      "id": "1725615876324",
-      "name": "asdfasdf6757876856786ytuityityui",
-      "formationDate": "2024-09-24",
-      "description": "asdf",
-      "parentId": null
+      "id": "1726046986022",
+      "name": "1111334",
+      "formationDate": "2024-09-11",
+      "description": "123",
+      "parentId": "1726047032327"
     },
     {
-      "id": "1725615886107",
+      "id": "1726047032327",
       "name": "222",
-      "formationDate": "2024-09-02",
-      "description": "2222",
+      "formationDate": "2024-09-11",
+      "description": "22",
       "parentId": null
     },
     {
-      "id": "1725615897429",
-      "name": "33",
-      "formationDate": "2024-09-06",
-      "description": "333",
-      "parentId": "1725615886107"
+      "id": "1726055276502",
+      "name": "tamila",
+      "formationDate": "2024-09-08",
+      "description": "324",
+      "parentId": null
+    },
+    {
+      "id": "1726055329303",
+      "name": "888",
+      "formationDate": "2024-09-01",
+      "description": "5675",
+      "parentId": "1726055276502"
     }
   ]
 }

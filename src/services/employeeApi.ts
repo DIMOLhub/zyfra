@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Employee, ID } from '../types/common.ts';
+import { Employee } from '../types/common.ts';
+
+const employeeListTag = { type: 'Employee' as const, id: 'LIST' };
 
 export const employeeApi = createApi({
   reducerPath: 'employeeApi',
@@ -12,11 +14,11 @@ export const employeeApi = createApi({
         result
           ? [
               ...result.map(({ id }) => ({ type: 'Employee' as const, id })),
-              { type: 'Employee' as const, id: 'LIST' },
+              employeeListTag,
             ]
-          : [{ type: 'Employee' as const, id: 'LIST' }],
+          : [employeeListTag],
     }),
-    fetchEmployeeById: builder.query<Employee, ID>({
+    fetchEmployeeById: builder.query<Employee, string>({
       query: (id) => `/employees/${id}`,
       providesTags: (result, error, id) => [{ type: 'Employee', id }],
     }),
@@ -26,7 +28,7 @@ export const employeeApi = createApi({
         method: 'POST',
         body: employee,
       }),
-      invalidatesTags: [{ type: 'Employee' as const, id: 'LIST' }],
+      invalidatesTags: [employeeListTag],
     }),
     updateEmployee: builder.mutation<Employee, Employee>({
       query: (employee) => ({
@@ -36,7 +38,7 @@ export const employeeApi = createApi({
       }),
       invalidatesTags: (result, error, { id }) => [{ type: 'Employee' as const, id }],
     }),
-    deleteEmployeeById: builder.mutation<void, ID>({
+    deleteEmployeeById: builder.mutation<void, string>({
       query: (id) => ({
         url: `/employees/${id}`,
         method: 'DELETE',

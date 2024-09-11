@@ -1,11 +1,11 @@
 export enum EGender {
-  Male = 'Мужской',
-  Female = 'Женский'
+  Male = 'Male',
+  Female = 'Female',
 }
 
 export enum ELicenseStatus {
   No = 0,
-  Yes = 1
+  Yes = 1,
 }
 
 
