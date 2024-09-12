@@ -3,12 +3,12 @@
     {
       "lastName": "Olhovnev",
       "firstName": "Dmitrii",
-      "middleName": "",
+      "middleName": "345345",
       "birthDate": "2024-09-20T21:00:00.000Z",
-      "gender": "Female",
-      "position": "",
+      "gender": "Male",
+      "position": "asdf",
       "driverLicense": 1,
-      "departmentId": "1726046986022",
+      "departmentId": "1726047032327",
       "id": "1726057385530"
     }
   ],

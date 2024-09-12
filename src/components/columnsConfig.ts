@@ -2,6 +2,7 @@ import React from 'react';
 import { ColumnsType } from 'antd/es/table';
 import { Employee } from '../types/common';
 import dayjs from 'dayjs';
+import { GenderLocale } from '../types/locales';
 
 export const employeeColumns: ColumnsType<Employee> = [
   {
@@ -41,6 +42,7 @@ export const employeeColumns: ColumnsType<Employee> = [
     key: 'gender',
     width: 100,
     ellipsis: true,
+    render: (gender) => GenderLocale[gender],
   },
   {
     title: 'Должность',
