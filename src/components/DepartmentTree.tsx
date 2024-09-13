@@ -18,6 +18,7 @@ const DepartmentTree: React.FC<DepartmentTreeProps> = ({ onSelect }) => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [filteredTreeData, setFilteredTreeData] = useState<any[]>([]);
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
+
   useEffect(() => {
     if (departments) {
       setFilteredTreeData(buildTreeData(departments));
@@ -106,7 +107,8 @@ const DepartmentTree: React.FC<DepartmentTreeProps> = ({ onSelect }) => {
       <Search
         placeholder="Поиск подразделений"
         allowClear
-        onSearch={handleSearch}
+        value={searchValue}
+        onChange={(e) => handleSearch(e.target.value)}
         style={{
           marginBottom: 8,
           width: 370,
